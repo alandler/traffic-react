@@ -1,0 +1,32 @@
+
+/* General styling */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Navigation styling */
+nav {
+    background-color: rgb(227, 238, 248);
+    padding: 5px;
+}
+
+nav ul {
+    display: inline;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    padding: 10px;
+}
+
+nav ul li a{
+    text-decoration: none;
+    color: black
+}
+
+nav a:hover {
+    color: royalblue;
+}
