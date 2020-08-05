@@ -11,6 +11,10 @@ import {
 import './../App.css';
 import { render } from "@testing-library/react";
 
+//Data
+import fl from "../data/fl.json"
+import atl from "../data/atl.json"
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -22,10 +26,12 @@ class Home extends Component {
         <h1>Home</h1>
         <Inputs></Inputs>
         <Scenario></Scenario>
+        <Experiment></Experiment>
       </div>
     );
   }
 }
+
 
 class Inputs extends Component {
   constructor(props) {
@@ -82,12 +88,12 @@ class Inputs extends Component {
         <label>
           Intersections:
           </label>
-        <input name="intersections" type="number" min="200" value={this.state.intersections} onChange={this.handleInputChange} />
+        <input name="intersections" type="number" min="0" value={this.state.intersections} onChange={this.handleInputChange} />
         <br />
         <label>
           Passenger Cost:
           </label>
-        <input name="passenger_cost" type="number" class="" step="0.01" value={this.state.passenger_cost} onChange={this.handleInputChange} />
+        <input name="passenger_cost" type="number" class="" min="0" step="0.01" value={this.state.passenger_cost} onChange={this.handleInputChange} />
         <br />
         <div class="center">
           <button type="submit" id="createScenarioButton">Create</button>
@@ -126,7 +132,7 @@ class Scenario extends Component {
         />
         <Table
           headers={this.state.headers}
-          filters = {this.state.filters}
+          filters={this.state.filters}
         />
       </div>
     )
@@ -168,50 +174,68 @@ function Filter(props) {
   );
 }
 
-function HeaderCell(header){
-  return (
-    <th>{header}</th>
-  )
-}
-function Cell(props) {
-  return (
-    <td class = {props.class}>{props.content}</td>
-  )
-}
-function Header(props){
-  return props.headers.map(HeaderCell)
-}
 
 function Table(props) {
-  var table = document.createElement("TABLE")
-  var header = table.createTHead();
-  var row = header.insertRow(0)
-  //Add select thing
-  var headerCell = document.createElement("TH");
-  headerCell.innerHTML = ""
-  row.appendChild(headerCell)
-
-  //Loop through real headers
-  for (var j = 0; j++; j <= props.filters.length) {
+  //Extract header names that are indicated "true"
+  var selected_headers = ["Select"]
+  var j;
+  for (j = 0; j < props.filters.length; j++) {
     if (props.filters[j] == true) {
-      var headerCell = document.createElement("TH");
-      headerCell.innerHTML = props.headers[j]
-      row.appendChild(headerCell)
+      selected_headers.push(props.headers[j])
     }
   }
-  var mongo = [{"SAE":"1"}]
-  //Append child rows to table
-  for (var object in mongo) {
-    var row = document.createElement("TR")
-    for (var j = 0; j++; j <= props.filters.length) {
-      if (props.filters[j] == true) {
-        var cell = document.createElement("td")
-        cell.innerHTML = mongo[props.headers[j]]
-        row.appendChild(cell)
+
+  //Extract scenarios from user
+  var mongo_user = [{ "SAE": 1, "PUB": 54, "COST": ".6", "GHG": "100" }, { "PUB": 2, "COST": "3" }, { "PRIV": 88, "PTI": 9 }]
+
+  //Functions to create Table Header
+  function HeaderCell(prop) {
+    return <th>{prop}</th>
+  }
+  function Header(headers) {
+    return selected_headers.map(HeaderCell)
+  }
+
+
+  //Functions to create Table Body
+  function Cell(stuff) {
+    return <td>{stuff}</td>
+  }
+
+  function Row(obj) {
+    var arr = []
+    for (var head of selected_headers) {
+      if (obj[head] != undefined) {
+        arr.push(obj[head])
+      } else {
+        arr.push("")
       }
     }
+    var row = arr.map(Cell)
+    return <tr>{row}</tr>
   }
-  return (table)
+
+  function Body(props) {
+    var rows = mongo_user.map(Row)
+    return <tbody>{rows}</tbody>
+  }
+
+  //Table Full Render Return
+  return (
+    <table>
+      <Header></Header>
+      <Body></Body>
+    </table>
+  )
 }
 
 export default Home;
+
+
+function Experiment(){
+  console.log(fl)
+
+  return (
+    <p>Experimentation ongoing</p>
+  )
+}
