@@ -11,10 +11,10 @@ import {
 import './../App.css';
 import { render } from "@testing-library/react";
 
-//Data
-import fl from "../data/fl.json"
-import atl from "../data/atl.json"
 
+//
+// Main Class HOME
+//
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +32,9 @@ class Home extends Component {
   }
 }
 
-
+//
+// Class INPUT
+//
 class Inputs extends Component {
   constructor(props) {
     super(props);
@@ -103,6 +105,11 @@ class Inputs extends Component {
   }
 }
 
+
+//
+// class SCENARIO
+//
+
 class Scenario extends Component {
   constructor(props) {
     super(props);
@@ -117,7 +124,6 @@ class Scenario extends Component {
     const filters = this.state.filters.slice();
     const prev_state = filters[i]
     filters[i] = !prev_state;
-    console.log(filters)
     this.setState({
       filters: filters,
     });
@@ -139,8 +145,11 @@ class Scenario extends Component {
   }
 }
 
-function FilterForm(props) {
+//
+//Filters and Table
+//
 
+function FilterForm(props) {
   return (
     <div>
       <Filter
@@ -159,13 +168,28 @@ function FilterForm(props) {
         header={props.headers[3]}
         onClick={() => props.onClick(3)}
       />
+      <Filter
+        header={props.headers[4]}
+        onClick={() => props.onClick(4)}
+      />
+      <Filter
+        header={props.headers[5]}
+        onClick={() => props.onClick(5)}
+      />
+      <Filter
+        header={props.headers[6]}
+        onClick={() => props.onClick(6)}
+      />
+      <Filter
+        header={props.headers[7]}
+        onClick={() => props.onClick(7)}
+      />
     </div>
   )
 }
 
 function Filter(props) {
   let lbl = "filter-" + props.header
-  console.log("Label: ", lbl)
   return (
     <div class="filter-div">
       <input type="checkbox" name={lbl} onClick={props.onClick}></input>
@@ -173,7 +197,6 @@ function Filter(props) {
     </div>
   );
 }
-
 
 function Table(props) {
   //Extract header names that are indicated "true"
@@ -232,8 +255,14 @@ function Table(props) {
 export default Home;
 
 
+
+
+
+//
+// Experimental function
+//
 function Experiment(){
-  console.log(fl)
+  console.log("Nvm")
 
   return (
     <p>Experimentation ongoing</p>
