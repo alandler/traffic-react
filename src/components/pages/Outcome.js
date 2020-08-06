@@ -43,17 +43,30 @@ class Outcome extends Component {
         return (
             <Container>
                 <Row>
+                    <Col><h1 style={{ textAlign: "center" }}>Outcome</h1></Col>
+                </Row>
+                <Row>
                     <Col>
                         <MapDiv
                             onClick={this.onClick}
                         ></MapDiv>
                     </Col>
+                    <Col>
+                        <img src={require("../data/ATL.gif")} style={{ width: "450px", height: "450px" }}></img>
+                    </Col>
                 </Row>
                 <br></br>
                 <Row>
                     <Col>
-                        <table>
-                            <tr style={{ textAlign: "center" }}>
+                        <TimeSeries
+                            data={fl}
+                            size={[500, 300]}
+                            yAxisAttribute={this.state.ySelection}
+                        ></TimeSeries>
+                    </Col>
+                    <Col>
+                        <table style = {{width:"70%", float: "left", verticalAlign: "top"}}>
+                            <tr style={{ textAlign: "center"}}>
                                 <th colSpan="2">Metrics</th>
                             </tr>
                             <tr><th>PMT</th><td>6</td></tr>
@@ -63,13 +76,6 @@ class Outcome extends Component {
                             <tr><th>Speed</th><td>35</td></tr>
                             <tr><th>Standstill</th><td>14</td></tr>
                         </table>
-                    </Col>
-                    <Col>
-                        <TimeSeries
-                            data={fl}
-                            size={[500, 300]}
-                            yAxisAttribute={this.state.ySelection}
-                        ></TimeSeries>
                     </Col>
                 </Row>
             </Container>
@@ -132,8 +138,7 @@ class MapDiv extends Component {
 
         return (
             <div>
-                <h1 style={{ textAlign:"center" }}>Outcome</h1>
-                <Map center={position} zoom={this.state.zoom} style={{ height: '450px', width: '100%',textAlign:"center" }}>
+                <Map center={position} zoom={this.state.zoom} style={{ height: '450px', width: '500px', textAlign: "center" }}>
                     <TileLayer
                         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -248,7 +253,7 @@ class TimeSeries extends Component {
 
     render() {
         return <svg ref={node => this.node = node}
-            width={600} height={300}>
+            width={450} height={500}>
         </svg>
     }
 }

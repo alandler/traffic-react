@@ -39,7 +39,7 @@ class Compare extends Component {
   render() {
     return (
       <div>
-        <h1>Compare</h1>
+        <h1 style={{ textAlign: "center" }}>Compare</h1>
         <Container>
         <Row>
             <Col>
@@ -87,6 +87,14 @@ class Compare extends Component {
               ></MapDiv>
             </Col>
           </Row>
+          <Row>
+                    <Col>
+                    <img src={require("../data/ATL.gif")} style={{ width: "540px", height: "530px" }}></img>
+                    </Col>
+                    <Col>
+                        <img src={require("../data/TL.gif")} style={{ width: "540px", height: "530px" }}></img>
+                    </Col>
+                </Row>
         </Container>
       </div>
     );
