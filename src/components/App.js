@@ -16,6 +16,9 @@ import About from "./pages/About.js";
 import Compare from "./pages/Compare.js";
 import NotFound from "./pages/NotFound.js";
 
+// Bootstrap grid
+import { Container, Row, Col } from 'react-bootstrap';
+
 //App
 class App extends Component {
   // makes props available in this component
