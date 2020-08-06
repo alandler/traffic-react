@@ -57,9 +57,6 @@ class Compare extends Component {
             </Col> */}
           </Row>
           <Row>
-            <video width="320" height="240" controls>
-              <source src="movie.mov" type="video/mov" />
-            </video>
           </Row>
         </Container>
       </div>
@@ -132,6 +129,18 @@ class TimeSeries extends Component {
       .data(this.props.data)
       .exit()
       .remove()
+    
+      select(node)
+      .selectAll('g')
+      .data(this.props.data)
+      .enter()
+      .append('g')
+
+    select(node)
+      .selectAll('g')
+      .data(this.props.data)
+      .exit()
+      .remove()
 
 
 
@@ -140,10 +149,11 @@ class TimeSeries extends Component {
     //Add Axis
     select(node)
       .append("g")
-      .attr("transform", "translate(0," + h + ")")
+      .attr("transform", "translate("+margin.left+"," + h + ")")
       .call(axisBottom(xScale));
     select(node)
       .append("g")
+      .attr("transform", "translate("+margin.left+",0)")
       .call(axisLeft(yScale));
 
     //Define Lines
@@ -152,6 +162,7 @@ class TimeSeries extends Component {
     select(node)
       .append('path')
       .datum(data)
+      .attr("transform", "translate("+margin.left+",0)")
       .attr("fill", "none")
       .attr("stroke", "steelblue")
       .attr("stroke-width", 1.5)
@@ -163,6 +174,7 @@ class TimeSeries extends Component {
     select(node)
       .append('path')
       .datum(data2)
+      .attr("transform", "translate("+margin.left+",0)")
       .attr("fill", "none")
       .attr("stroke", "red")
       .attr("stroke-width", 1.5)
