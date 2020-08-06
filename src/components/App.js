@@ -14,6 +14,7 @@ import './App.css';
 import Home from "./pages/Home.js";
 import About from "./pages/About.js";
 import Compare from "./pages/Compare.js";
+import Outcome from "./pages/Outcome.js";
 import NotFound from "./pages/NotFound.js";
 
 // Bootstrap grid
@@ -46,6 +47,9 @@ class App extends Component {
                 <li>
                   <Link to="/compare">Compare</Link>
                 </li>
+                <li>
+                  <Link to="/outcome">Outcome</Link>
+                </li>
               </ul>
               <ul style={{float: "right"}}>
                 <li>
@@ -63,7 +67,10 @@ class App extends Component {
               <Route path="/compare">
                 <Compare />
               </Route>
-              <Route path="/">
+              <Route path="/outcome">
+                <Outcome />
+              </Route>
+              <Route exact path="/">
                 <Home />
               </Route>
             </Switch>

@@ -7,6 +7,9 @@ import {
   Link
 } from "react-router-dom";
 
+// Bootstrap grid
+import { Container, Row, Col } from 'react-bootstrap';
+
 //CSS
 import './../App.css';
 import { render } from "@testing-library/react";
@@ -23,10 +26,18 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <h1>Home</h1>
-        <Inputs></Inputs>
+        <h1 style={{ "textAlign": "center" }}>Urban Decision Design Tool</h1>
+        <Container>
+          <Row>
+            <Col>
+            <Inputs></Inputs>
+            </Col>
+            <Col>
+            <ComparisonSelection></ComparisonSelection>
+            </Col>
+          </Row>
+        </Container>
         <Scenario></Scenario>
-        <ComparisonSelection></ComparisonSelection>
         <Experiment></Experiment>
       </div>
     );
@@ -63,8 +74,8 @@ class Inputs extends Component {
 
   render() {
     return (
-      <form action ="/compare" class = "input-form">
-      <h4 style={{"text-align":"center"}}>Create and run new scenario</h4>
+      <form action="/outcome" className="input-form">
+        <h4 style={{ "textAlign": "center" }}>Create and run new scenario</h4>
         <label>
           SAE Level:
         </label>
@@ -97,9 +108,9 @@ class Inputs extends Component {
         <label>
           Passenger Cost:
           </label>
-        <input name="passenger_cost" type="number" class="" min="0" step="0.01" value={this.state.passenger_cost} onChange={this.handleInputChange} />
+        <input name="passenger_cost" type="number" className="" min="0" step="0.01" value={this.state.passenger_cost} onChange={this.handleInputChange} />
         <br />
-        <div class="center">
+        <div className="center">
           <button type="submit" id="createScenarioButton">Create</button>
         </div>
       </form>
@@ -133,7 +144,7 @@ class Scenario extends Component {
 
   render() {
     return (
-      <div class = "table-container">
+      <div className="table-container">
         <FilterForm
           onClick={(i) => this.handleClick(i)}
           headers={this.state.headers}
@@ -153,7 +164,7 @@ class Scenario extends Component {
 
 function FilterForm(props) {
   return (
-    <div class = "filter-form">
+    <div className="filter-form">
       <Filter
         header={props.headers[0]}
         onClick={() => props.onClick(0)}
@@ -213,9 +224,9 @@ function FilterForm(props) {
 function Filter(props) {
   let lbl = "filter-" + props.header
   return (
-    <div class="filter-div">
+    <div className="filter-div">
       <input type="checkbox" name={lbl} onClick={props.onClick}></input>
-      <label for={lbl}>{props.header}</label> <br />
+      <label htmlFor={lbl}>{props.header}</label> <br />
     </div>
   );
 }
@@ -232,17 +243,18 @@ function Table(props) {
 
   //Extract scenarios from user
   var mongo_user = [
-    {"TIME": "7/3/20", "SAE": 4, "PRIV": 90, "ELEC":40, "PUB": 25, "INT":25, "COST": "3", "PMT": 7, "PTI":9, "TTI":3,"PTI":6, "GHG":6, "SPEED":7,"STAND":100}, 
-  {"TIME": "7/4/20", "SAE": 3, "PRIV": 73, "ELEC":65, "PUB": 62, "INT":14, "COST": "3", "PMT": 8, "PTI":7, "TTI":3,"PTI":5, "GHG":6.5, "SPEED":26,"STAND":80}, 
-  {"TIME": "7/5/20","SAE": 2, "PRIV": 13, "ELEC":14, "PUB": 77, "INT":2, "COST": "3", "PMT": 5, "PTI":2, "TTI":4,"PTI":8, "GHG":7, "SPEED":35.7,"STAND":60}
-]
+    { "TIME": "7/3/20", "SAE": 4, "PRIV": 90, "ELEC": 40, "PUB": 25, "INT": 25, "COST": "3", "PMT": 7, "PTI": 9, "TTI": 3, "PTI": 6, "GHG": 6, "SPEED": 7, "STAND": 100 },
+    { "TIME": "7/4/20", "SAE": 3, "PRIV": 73, "ELEC": 65, "PUB": 62, "INT": 14, "COST": "3", "PMT": 8, "PTI": 7, "TTI": 3, "PTI": 5, "GHG": 6.5, "SPEED": 26, "STAND": 80 },
+    { "TIME": "7/5/20", "SAE": 2, "PRIV": 13, "ELEC": 14, "PUB": 77, "INT": 2, "COST": "3", "PMT": 5, "PTI": 2, "TTI": 4, "PTI": 8, "GHG": 7, "SPEED": 35.7, "STAND": 60 }
+  ]
 
   //Functions to create Table Header
   function HeaderCell(prop) {
     return <th>{prop}</th>
   }
   function Header(headers) {
-    return selected_headers.map(HeaderCell)
+    var result = selected_headers.map(HeaderCell)
+    return <thead>{result}</thead>
   }
 
 
@@ -285,9 +297,10 @@ function Table(props) {
 export default Home;
 
 
-function ComparisonSelection(){
+function ComparisonSelection() {
   return (
-    <form class = "compare-selector" action = "/compare">
+    <form className="compare-selector" action="/compare">
+      <h4 style={{ "textAlign": "center" }}>Compare existing scenarios</h4>
       <label>Choose 1st scenario: </label>
       <select>
         <option>1</option>
@@ -302,7 +315,7 @@ function ComparisonSelection(){
         <option>3</option>
       </select>
       <br></br>
-      <button type = "submit">Compare!</button>
+      <button type="submit">Compare!</button>
     </form>
   )
 }
@@ -311,7 +324,7 @@ function ComparisonSelection(){
 //
 // Experimental function
 //
-function Experiment(){
+function Experiment() {
   console.log("Nvm")
 
   return (
