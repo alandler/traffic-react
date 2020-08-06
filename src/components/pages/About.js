@@ -8,8 +8,10 @@ class About extends Component {
   render() {
     return (
       <div>
-        <h1>404 Not Found</h1>
-        <p>The page you requested couldn't be found.</p>
+        <h1>Documentation</h1>
+        <h3>Urban Decision Dashboard for Autonomy</h3>
+        <br></br>
+        <p><b>Contributors: </b>Anna Landler, Vindula Jayawardana, Cathy Wu</p>
       </div>
     );
   }

@@ -26,6 +26,7 @@ class Home extends Component {
         <h1>Home</h1>
         <Inputs></Inputs>
         <Scenario></Scenario>
+        <ComparisonSelection></ComparisonSelection>
         <Experiment></Experiment>
       </div>
     );
@@ -62,7 +63,8 @@ class Inputs extends Component {
 
   render() {
     return (
-      <form>
+      <form action ="/compare" class = "input-form">
+      <h4 style={{"text-align":"center"}}>Create and run new scenario</h4>
         <label>
           SAE Level:
         </label>
@@ -131,7 +133,7 @@ class Scenario extends Component {
 
   render() {
     return (
-      <div>
+      <div class = "table-container">
         <FilterForm
           onClick={(i) => this.handleClick(i)}
           headers={this.state.headers}
@@ -151,7 +153,7 @@ class Scenario extends Component {
 
 function FilterForm(props) {
   return (
-    <div>
+    <div class = "filter-form">
       <Filter
         header={props.headers[0]}
         onClick={() => props.onClick(0)}
@@ -184,6 +186,26 @@ function FilterForm(props) {
         header={props.headers[7]}
         onClick={() => props.onClick(7)}
       />
+      <Filter
+        header={props.headers[8]}
+        onClick={() => props.onClick(8)}
+      />
+      <Filter
+        header={props.headers[9]}
+        onClick={() => props.onClick(9)}
+      />
+      <Filter
+        header={props.headers[10]}
+        onClick={() => props.onClick(10)}
+      />
+      <Filter
+        header={props.headers[11]}
+        onClick={() => props.onClick(11)}
+      />
+      <Filter
+        header={props.headers[12]}
+        onClick={() => props.onClick(12)}
+      />
     </div>
   )
 }
@@ -193,7 +215,7 @@ function Filter(props) {
   return (
     <div class="filter-div">
       <input type="checkbox" name={lbl} onClick={props.onClick}></input>
-      <label for={lbl}>{lbl}</label> <br />
+      <label for={lbl}>{props.header}</label> <br />
     </div>
   );
 }
@@ -209,7 +231,11 @@ function Table(props) {
   }
 
   //Extract scenarios from user
-  var mongo_user = [{ "SAE": 1, "PUB": 54, "COST": ".6", "GHG": "100" }, { "PUB": 2, "COST": "3" }, { "PRIV": 88, "PTI": 9 }]
+  var mongo_user = [
+    {"TIME": "7/3/20", "SAE": 4, "PRIV": 90, "ELEC":40, "PUB": 25, "INT":25, "COST": "3", "PMT": 7, "PTI":9, "TTI":3,"PTI":6, "GHG":6, "SPEED":7,"STAND":100}, 
+  {"TIME": "7/4/20", "SAE": 3, "PRIV": 73, "ELEC":65, "PUB": 62, "INT":14, "COST": "3", "PMT": 8, "PTI":7, "TTI":3,"PTI":5, "GHG":6.5, "SPEED":26,"STAND":80}, 
+  {"TIME": "7/5/20","SAE": 2, "PRIV": 13, "ELEC":14, "PUB": 77, "INT":2, "COST": "3", "PMT": 5, "PTI":2, "TTI":4,"PTI":8, "GHG":7, "SPEED":35.7,"STAND":60}
+]
 
   //Functions to create Table Header
   function HeaderCell(prop) {
@@ -225,16 +251,20 @@ function Table(props) {
     return <td>{stuff}</td>
   }
 
-  function Row(obj) {
+  function Row(obj, i) {
     var arr = []
+    let index = 0
     for (var head of selected_headers) {
-      if (obj[head] != undefined) {
+      if (head == "Select") {
+        arr.push(i)
+      }
+      else if (obj[head] != undefined) {
         arr.push(obj[head])
       } else {
         arr.push("")
       }
     }
-    var row = arr.map(Cell)
+    var row = arr.map(Cell, i)
     return <tr>{row}</tr>
   }
 
@@ -255,7 +285,27 @@ function Table(props) {
 export default Home;
 
 
-
+function ComparisonSelection(){
+  return (
+    <form class = "compare-selector" action = "/compare">
+      <label>Choose 1st scenario: </label>
+      <select>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+      </select>
+      <br></br>
+      <label>Choose 2nd scenario: </label>
+      <select>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+      </select>
+      <br></br>
+      <button type = "submit">Compare!</button>
+    </form>
+  )
+}
 
 
 //
@@ -265,6 +315,6 @@ function Experiment(){
   console.log("Nvm")
 
   return (
-    <p>Experimentation ongoing</p>
+    <p></p>
   )
 }

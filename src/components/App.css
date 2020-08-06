@@ -2,6 +2,8 @@
 /* General styling */
 body {
     font-family: Arial, Helvetica, sans-serif;
+    background-color: white;
+    color: black;
 }
 
 .col {
@@ -38,41 +40,71 @@ nav a:hover {
 /* Inputs Form */
 
 form {
-    width: 80%;
+    width: 50%;
     margin: 0 auto;
+    outline: 1px solid black;
+    padding: 1%;
 }
 
-label, input {
+.input-form label, input {
     display: inline-block;
 }
 
-label {
-    width: 30%;
+.input-form label {
+    width: 49%;
     text-align: right;
 }
 
-label +span {
+.input-form label +span {
     margin: 0 0 0 4%;
 }
-span {
+.input-form span {
     padding-right: .5%;
 }
 
-label + input {
-    margin: 0 0 0 4%;
+.input-form label + input {
+    margin: 0 2% 0 4%;
 }
 
-input + input {
+.input-form input + input {
     float: right;
 }
 
-form .center {
-    margin-top: 1%;
-    margin-left: 30%;
+.input-form .center {
+    margin-top: 0;
+    margin-left: 47%;
+}
+
+.input-form button {
+    margin-top: 2%;
 }
 
 /* Table */
+table { 
+    margin: auto; 
+    padding: 10px
+}
 
+.filter-form{
+    width: 98%;
+    margin: 10px;
+    padding-top: 10px;
+}
 .filter-div {
     display: inline-block;
+    width: 85px
+}
+
+th, td {
+    outline: .5px solid  rgb(227, 238, 248);
+    width: 70px;
+}
+
+.table-container{
+    text-align: center;
+}
+
+/* Compare */
+.compare-selector {
+    text-align: center;
 }

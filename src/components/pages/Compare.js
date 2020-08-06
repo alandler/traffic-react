@@ -18,7 +18,6 @@ import './../App.css';
 import { Container, Row, Col } from 'react-bootstrap';
 
 //Leaflet
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 import L from "leaflet"
 
 class Compare extends Component {
@@ -53,11 +52,11 @@ class Compare extends Component {
               ></TimeSeries>
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
             <Col>
               <HeatMap></HeatMap>
             </Col>
-          </Row>
+          </Row> */}
         </Container>
       </div>
     );
@@ -190,11 +189,12 @@ class HeatMap extends React.Component {
   componentDidMount() {
     // create map
     this.map = L.map('map', {
-      center: [49.8419, 24.0315],
+      center: [24.204281, 120.610607],
       zoom: 16,
       layers: [
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '...',
+          maxZoom: 18
         }),
       ]
     });
@@ -202,30 +202,6 @@ class HeatMap extends React.Component {
 
   render() {
     return <div id="map"></div>
-  }
-}
-
-
-class LeafletReactExample extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      lat: 24.204281,
-      lng: 120.610607,
-      zoom: 30,
-    }
-  }
-
-  render() {
-    const position = [this.state.lat, this.state.lng]
-    return (
-      <Map center={position} zoom={this.state.zoom}>
-        <TileLayer
-          attribution='&amp;copy MapBox contributors'
-          url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-        />
-      </Map>
-    )
   }
 }
 
