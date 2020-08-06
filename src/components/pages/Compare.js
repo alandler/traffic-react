@@ -17,6 +17,10 @@ import './../App.css';
 // Bootstrap grid
 import { Container, Row, Col } from 'react-bootstrap';
 
+//Leaflet
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
+import L from "leaflet"
+
 class Compare extends Component {
   constructor(props) {
     super(props);
@@ -48,15 +52,11 @@ class Compare extends Component {
                 yAxisAttribute={this.state.ySelection}
               ></TimeSeries>
             </Col>
-            {/* <Col style={{ width: "50%" }}>
-              <TimeSeries
-                data={atl}
-                size={[400, 400]}
-                yAxisAttribute={this.state.ySelection}
-              ></TimeSeries>
-            </Col> */}
           </Row>
           <Row>
+            <Col>
+              <HeatMap></HeatMap>
+            </Col>
           </Row>
         </Container>
       </div>
@@ -84,8 +84,7 @@ function ChooseY(props) {
 class TimeSeries extends Component {
   constructor(props) {
     super(props)
-    this.createBarChart = this.drawChart.bind(this)
-    this.chartRef = React.createRef();
+    this.drawChart = this.drawChart.bind(this)
   }
   componentDidMount() {
     this.drawChart()
@@ -129,8 +128,8 @@ class TimeSeries extends Component {
       .data(this.props.data)
       .exit()
       .remove()
-    
-      select(node)
+
+    select(node)
       .selectAll('g')
       .data(this.props.data)
       .enter()
@@ -142,18 +141,14 @@ class TimeSeries extends Component {
       .exit()
       .remove()
 
-
-
-
-
     //Add Axis
     select(node)
       .append("g")
-      .attr("transform", "translate("+margin.left+"," + h + ")")
+      .attr("transform", "translate(" + margin.left + "," + h + ")")
       .call(axisBottom(xScale));
     select(node)
       .append("g")
-      .attr("transform", "translate("+margin.left+",0)")
+      .attr("transform", "translate(" + margin.left + ",0)")
       .call(axisLeft(yScale));
 
     //Define Lines
@@ -162,7 +157,7 @@ class TimeSeries extends Component {
     select(node)
       .append('path')
       .datum(data)
-      .attr("transform", "translate("+margin.left+",0)")
+      .attr("transform", "translate(" + margin.left + ",0)")
       .attr("fill", "none")
       .attr("stroke", "steelblue")
       .attr("stroke-width", 1.5)
@@ -174,7 +169,7 @@ class TimeSeries extends Component {
     select(node)
       .append('path')
       .datum(data2)
-      .attr("transform", "translate("+margin.left+",0)")
+      .attr("transform", "translate(" + margin.left + ",0)")
       .attr("fill", "none")
       .attr("stroke", "red")
       .attr("stroke-width", 1.5)
@@ -188,6 +183,49 @@ class TimeSeries extends Component {
     return <svg ref={node => this.node = node}
       width={1000} height={500}>
     </svg>
+  }
+}
+
+class HeatMap extends React.Component {
+  componentDidMount() {
+    // create map
+    this.map = L.map('map', {
+      center: [49.8419, 24.0315],
+      zoom: 16,
+      layers: [
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }),
+      ]
+    });
+  }
+
+  render() {
+    return <div id="map"></div>
+  }
+}
+
+
+class LeafletReactExample extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      lat: 24.204281,
+      lng: 120.610607,
+      zoom: 30,
+    }
+  }
+
+  render() {
+    const position = [this.state.lat, this.state.lng]
+    return (
+      <Map center={position} zoom={this.state.zoom}>
+        <TileLayer
+          attribution='&amp;copy MapBox contributors'
+          url='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+        />
+      </Map>
+    )
   }
 }
 
