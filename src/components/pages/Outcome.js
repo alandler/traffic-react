@@ -21,8 +21,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 //Leaflet
 import L from "leaflet"
 import { Map, TileLayer, Marker, Popup, Polygon } from "react-leaflet"
-// import "../libs/heatmap.js"
-// import "../libs/leafletheatmap.js"
 
 class Outcome extends Component {
     constructor(props) {
