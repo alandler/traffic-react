@@ -14,12 +14,15 @@ import { Container, Row, Col } from 'react-bootstrap';
 import './../App.css';
 import { render } from "@testing-library/react";
 
+//HTTP Axios
+import axios from 'axios';
 
 //
 // Main Class HOME
 //
 class Home extends Component {
   constructor(props) {
+    console.log("Home props:", props)
     super(props);
   }
 
@@ -70,6 +73,18 @@ class Inputs extends Component {
     this.setState({
       [name]: value
     });
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    const sae = this.state.sae
+
+    axios.post('/run', { sae })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
   }
 
   render() {

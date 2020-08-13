@@ -22,9 +22,15 @@ import { Container, Row, Col } from 'react-bootstrap';
 import L from "leaflet"
 import { Map, TileLayer, Marker, Popup, Polygon } from "react-leaflet"
 
+//import Inputs from "./pages/Home.js";
+
+//HTTP Axios
+import axios from 'axios';
+
 class Outcome extends Component {
     constructor(props) {
         super(props)
+        console.log("Outcome props: ", props)
         this.state = {
             ySelection: "Queue"
         }

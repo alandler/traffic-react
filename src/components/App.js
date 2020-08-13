@@ -20,6 +20,14 @@ import NotFound from "./pages/NotFound.js";
 // Bootstrap grid
 import { Container, Row, Col } from 'react-bootstrap';
 
+//PDF
+import ReactPDF from '@react-pdf/renderer';
+import { PDFViewer } from '@react-pdf/renderer';
+import { Page, Document, Text, View, StyleSheet } from '@react-pdf/renderer';
+
+// //HTTP Axios
+import axios from 'axios';
+
 //App
 class App extends Component {
   // makes props available in this component
@@ -28,7 +36,8 @@ class App extends Component {
     this.state = {
       userId: undefined,
       loggedIn: false,
-      loggedOut: false
+      loggedOut: false,
+      inputs: {},
     };
   }
   render() {
@@ -51,7 +60,7 @@ class App extends Component {
                   <Link to="/outcome">Outcome</Link>
                 </li>
               </ul>
-              <ul style={{float: "right"}}>
+              <ul style={{ float: "right" }}>
                 <li>
                   <a>Log out</a>
                 </li>
@@ -70,9 +79,15 @@ class App extends Component {
               <Route path="/outcome">
                 <Outcome />
               </Route>
-              <Route exact path="/">
+              {/* <Route exact path="/">
                 <Home />
-              </Route>
+              </Route> */}
+              <Route
+                path='/'
+                render={(props) => (
+                  <Home {...props} userId={"Anna"}/>
+                )}
+              />
             </Switch>
           </div>
         </Router>
