@@ -18,6 +18,7 @@ class MapDiv extends Component {
         center_lat= float
         center_lng= float
         intersections= list of objects {lat:_, lng:_, stat1:[], stat1-color:[], stat2[], stat2-color:[]}
+        // Option 2: {lat:_, lng:_, data = {time1: {stat1:_, stat1Color:_, stat2:_, stat2Color:_}}
         stat_list= [stat1, stat2]
         stat_index= integer
         time_index= integer

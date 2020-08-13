@@ -1,6 +1,11 @@
 import time
 import random
+import pandas
+import json
 from flask import Flask, request
+
+fl = pandas.read_csv("../src/components/fl_data_1.txt", header=None)
+atl = pandas.read_csv("../src/components/atl_data_1.txt", header=None)
 
 app = Flask(__name__)
 
@@ -10,6 +15,7 @@ def get_current_time():
 
 @app.route('/run', methods = ["GET","POST"])
 def run_model():
+    #Extract Inputs
     d={}
     data = request.get_json(silent=True)
     for key in data:
