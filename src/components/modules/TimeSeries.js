@@ -1,5 +1,24 @@
+import React, { Component } from "react";
+import ReactDOM from 'react-dom';
+
+//D3
+import { scaleLinear, scaleBand } from 'd3-scale'
+import { max, min } from 'd3-array'
+import { select } from 'd3-selection'
+import { line, curveMonotoneX } from 'd3-shape';
+import { axisLeft, axisBottom } from 'd3-axis';
+
+//Data
+import fl from "../data/fl-records.json"
+import atl from "../data/atl-records.json"
+
 class TimeSeries extends Component {
     constructor(props) {
+        /*
+        data
+        size = [x,y]
+        yAxisAttribute
+        */
         super(props)
         this.drawChart = this.drawChart.bind(this)
     }

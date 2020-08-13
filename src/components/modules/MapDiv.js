@@ -66,6 +66,7 @@ function RenderCircle(params) {
     y
     intersection
     timeIndex
+    colors
     */
     console.log("Circle: ", params)
 
