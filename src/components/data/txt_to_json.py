@@ -12,6 +12,11 @@ atl = pd.read_csv("atl_data_1.txt", header=None)
 fl.columns = ["Queue", "Debug1", "Reward", "Velocity", "Debug2", "AvgTime", "Throughput"]
 atl.columns = ["Queue", "Debug1", "Reward", "Velocity", "Debug2", "AvgTime", "Throughput"]
 
+fl = fl.drop(['Debug1', 'Debug2'], axis =1)
+atl = atl.drop(columns=['Debug1', 'Debug2'])
+
+
+print(fl.head())
 #
 # WRITE FILES
 #
@@ -79,4 +84,25 @@ fl_norm_var=normalized_fl.var()
 # print("Vars: ", fl_vars)
 # print("Norm Vars: ", fl_norm_var)
 
-print(fl["Queue"].tolist())
+print(fl_quartiles)
+
+def get_quantile(x, col):
+    lower_better = ["Queue", "AvgTime"]
+    higher_better = ["Reward", "Velocity", "Throughput"]
+    if col in higher_better:
+        i = 0
+        while x>fl_quartiles[col].iloc[i]:
+            i+=1
+        return i
+    else:
+        i = 0
+        while x>fl_quartiles[col].iloc[i]:
+            i+=1
+        return 3-i
+d={}
+for col in fl:
+    d[col] = fl[col].tolist()
+    func = np.vectorize(get_quantile)
+    fl[col+"Color"] = func(d[col], col)
+
+print(fl.head())

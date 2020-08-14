@@ -27,7 +27,7 @@ class About extends Component {
           <PDF />
         </PDFViewer>
         <GetTime />
-        <PostInputs/>
+        <PostInputs />
       </div>
     );
   }
@@ -67,7 +67,7 @@ const GetTime = () => {
   const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
-    fetch('/run').then(res => res.json()).then(data => {
+    fetch('/time').then(res => res.json()).then(data => {
       setCurrentTime(data.time);
     });
   }, []);
@@ -78,30 +78,56 @@ const GetTime = () => {
 }
 
 
-    const inputs = {
-      sae: Math.floor(Math.random() * 6),
-      elec: Math.floor(Math.random() * 101),
-      pub: Math.floor(Math.random() * 101),
-      priv: Math.floor(Math.random() * 101),
-      int: Math.floor(Math.random() * 101),
-      cost: Math.floor(Math.random() * 5),
-    };
+const inputs = {
+  sae: Math.floor(Math.random() * 6),
+  elec: Math.floor(Math.random() * 101),
+  pub: Math.floor(Math.random() * 101),
+  priv: Math.floor(Math.random() * 101),
+  int: Math.floor(Math.random() * 101),
+  cost: Math.floor(Math.random() * 5),
+};
 
 class PostInputs extends Component {
 
   constructor(props) {
-      super(props)
+    const item1 = { lat: 24.207, lng: 120.611, stat1: [0, 1, 2, 3], stat1Color: [0, 1, 2, 3], stat2: [3, 2, 1, 0], stat2Color: [3, 2, 1, 0] }
+    const item2 = { lat: 24.21, lng: 120.61, stat1: [], stat1: [3, 2, 1, 0], stat1Color: [3, 2, 1, 0], stat2: [3, 2, 1, 0], stat2Color: [3, 2, 1, 0] }
 
-      this.state = {
-        sae: null,
-      }
+    super(props)
+
+    this.state = {
+      sae: null,
+      recevied_intersections: [item1, item2],
+      statList: ['stat1', 'stat2'],
+      statIndex:1
+    }
+
+    this.handleClick = this.handleClick.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleRun = this.handleRun.bind(this);
   }
 
-  handleChange = event => {
-    this.setState({ sae: event.target.value });
+  handleClick() {
+    axios({
+      method: 'get',
+      url: '/intersection',
+    })
+      .then(res => {
+        console.log("Data: ", res.data["Queue"])
+        this.setState({ recevied_intersections: [res.data],
+          statList: ["Queue", "Reward", "Velocity", "AvgTime", "Throughput"],
+          statIndex: 2,
+        })
+      })
   }
 
-  handleSubmit = event => {
+  handleInputChange = event => {
+    this.setState({
+      sae: event.target.value,
+    });
+  }
+
+  handleRun = event => {
     event.preventDefault();
 
     const sae = this.state.sae
@@ -114,39 +140,22 @@ class PostInputs extends Component {
   }
 
   render() {
-    const item1 = {lat:24.207, lng:120.611, stat1:[0,1,2,3], stat1Color:[0,1,2,3], stat2:[3,2,1,0], stat2Color:[3,2,1,0]}
-    const item2 = {lat:24.21, lng:120.61, stat1:[], stat1:[3,2,1,0], stat1Color:[3,2,1,0], stat2:[3,2,1,0], stat2Color:[3,2,1,0]}
-
     return (
       <div>
-        <p>"Current" {this.state.sae}</p>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Sae:
-            <input type="number" name="sae" onChange={this.handleChange} />
-          </label>
-        </form>
+        <button onClick={this.handleClick}>Get data</button>
         <MapDiv
-         height= {500}
-         width= {450}
-         centerLat= {24.204003}
-         centerLng= {120.610827}
-         intersections= {[item1,item2]}
-         statList= {["stat1", "stat2"]}
-         statIndex= {0}
-         timeIndex= {2}
+          height={600}
+          width={700}
+          centerLat={24.204003}
+          centerLng={120.610827}
+          intersections={this.state.recevied_intersections}
+          statList={this.state.statList}
+          statIndex={this.state.statIndex}
+          timeIndex={2}
         />
       </div>
     )
   }
-}
-
-class Post extends Component {
-  axios.post('/run', { sae })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
 }
 
 export default About;
