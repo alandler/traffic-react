@@ -83,8 +83,8 @@ def intersection():
             func = np.vectorize(get_quantile)
             d[col+"Color"] = func(d[col], col).tolist()
             print("colColor: ", col+"Color")
-        d['lat'] = 24.204003+random.random()/4
-        d['lng'] = 120.610827+random.random()/4
+        d['lat'] = 24.204003+random.random()/10-random.random()/10
+        d['lng'] = 120.610827+random.random()/10-random.random()/10
         # print("Dictionary: ", d)
         return d
     except:

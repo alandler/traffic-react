@@ -24,7 +24,7 @@ class MapDiv extends Component {
         time_index= integer
         */
         super(props)
-        console.log("PROPS: ", this.props)
+        // console.log("PROPS: ", this.props)
     }
 
     render() {
@@ -53,9 +53,9 @@ function Circles(params) {
     */
 
     const extractedProps = params.props;
-    console.log("Extracted props: ", extractedProps)
+    // console.log("Extracted props: ", extractedProps)
     let arr = []
-    console.log("Extracted props: ", extractedProps['intersections'])
+    // console.log("Extracted props: ", extractedProps['intersections'])
     for (let intersection of extractedProps["intersections"]) {
         let y = extractedProps.statList[extractedProps.statIndex]
         arr.push(<RenderCircle intersection={intersection} y={y} timeIndex={extractedProps.timeIndex} colors={params.colors}/>)
@@ -72,8 +72,9 @@ function RenderCircle(params) {
     colors
     */
     console.log("Circle: ", params)
-    console.log("Color: ", params.colors[params.intersection[params.y + "Color"][params.timeIndex]])
-    console.log("Radius: ", params.intersection[params.y][params.timeIndex]*100)
+    // console.log("Color: ", params.colors[params.intersection[params.y + "Color"][params.timeIndex]])
+    // console.log("Radius: ", params.intersection[params.y][params.timeIndex]*100)
+    console.log("Center: ", [params.intersection.lat, params.intersection.lng])
 
 
     return <Circle color={params.colors[params.intersection[params.y + "Color"][params.timeIndex]]} center={[params.intersection.lat, params.intersection.lng]} radius={params.intersection[params.y][params.timeIndex]*100}></Circle>

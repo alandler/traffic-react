@@ -99,12 +99,20 @@ class PostInputs extends Component {
       sae: null,
       recevied_intersections: [item1, item2],
       statList: ['stat1', 'stat2'],
-      statIndex:1
+      statIndex: 1,
+      timeIndex: 0,
+      timerOn: false,
+      timer: null,
+      toggle: "Play",
+      timerMax: 999,
+      timerMin: 0,
     }
 
     this.handleClick = this.handleClick.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleRun = this.handleRun.bind(this);
+    this.handleRange = this.handleRange.bind(this);
+    this.togglePlayPause = this.togglePlayPause.bind(this);
   }
 
   handleClick() {
@@ -114,7 +122,8 @@ class PostInputs extends Component {
     })
       .then(res => {
         console.log("Data: ", res.data["Queue"])
-        this.setState({ recevied_intersections: [res.data],
+        this.setState({
+          recevied_intersections: [res.data],
           statList: ["Queue", "Reward", "Velocity", "AvgTime", "Throughput"],
           statIndex: 2,
         })
@@ -139,6 +148,44 @@ class PostInputs extends Component {
       })
   }
 
+  handleRange = event => {
+    this.setState({
+      timeIndex: parseInt(event.target.value),
+    });
+  }
+
+  togglePlayPause = event => {
+    if (this.state.timerOn == false) {
+
+      console.log("Turning on the timer")
+      this.setState({
+        timerOn: true,
+        toggle: "Stop"
+      });
+
+      this.timer = setInterval(() => {
+        console.log("Timer object.", this.timer)
+        let newTime = this.state.timeIndex + 1
+        
+        if (newTime > this.state.timerMax) {
+          newTime = this.state.timerMax
+        }
+
+        this.setState({
+          timeIndex: newTime
+        })
+      }, 750);
+    }
+    else {
+      console.log("Turning off the timer")
+      clearInterval(this.timer)
+      this.setState({
+        timerOn: false,
+        toggle: "Start"
+      });
+    }
+  }
+
   render() {
     return (
       <div>
@@ -151,8 +198,37 @@ class PostInputs extends Component {
           intersections={this.state.recevied_intersections}
           statList={this.state.statList}
           statIndex={this.state.statIndex}
-          timeIndex={2}
+          timeIndex={this.state.timeIndex}
         />
+        <TimerRange
+          timerMin={0}
+          timerMax={999}
+          timeIndex={this.state.timeIndex}
+          handleRange={this.handleRange}
+          togglePlayPause={this.togglePlayPause}
+          toggle={this.state.toggle}
+        />
+      </div>
+    )
+  }
+}
+
+class TimerRange extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  change() {
+  }
+
+  render() {
+    return (
+      <div>
+        <p>Current time: {this.props.timeIndex}</p>
+        <button onClick={this.props.togglePlayPause}>{this.props.toggle}</button>
+        <input name="timer" type="range"
+          min={this.props.timerMin} max={this.props.timerMax}
+          value={this.props.timeIndex} onChange={this.props.handleRange} />
       </div>
     )
   }
