@@ -1,16 +1,20 @@
+#Import libraries
 import json
 import pandas as pd
 import numpy as np
 from sklearn import preprocessing
 
+#Import data files
 fl = pd.read_csv("fl_data_1.txt", header=None)
 atl = pd.read_csv("atl_data_1.txt", header=None)
 
-#Add Columns
+# Add Column Names
 fl.columns = ["Queue", "Debug1", "Reward", "Velocity", "Debug2", "AvgTime", "Throughput"]
 atl.columns = ["Queue", "Debug1", "Reward", "Velocity", "Debug2", "AvgTime", "Throughput"]
 
-print(fl.head())
+#
+# WRITE FILES
+#
 
 # #Records format
 records_fl = fl.to_json(orient="records")
@@ -21,7 +25,6 @@ parsed_records_atl = json.loads(records_atl)
 #     json.dump(parsed_records_fl, outfile)
 # with open('atl-records.json', 'w') as outfile:
 #     json.dump(parsed_records_atl, outfile)
-
 
 # #Split format
 split_fl = fl.to_json(orient="split")
@@ -44,56 +47,36 @@ parsed_column_atl = json.loads(column_atl)
 #     json.dump(parsed_column_atl, outfile)
 
 
-d = {}
-create = True
 
-for timestep in parsed_records_fl:
-    # print("Step object:", timestep)
-    for key in timestep:
-        # print("Key: ", key)
-        # print(timestep[key])
-        if create == True:
-            d[key] = [timestep[key]]
-        else:
-            d[key].append(timestep[key])
-    create=False
+
+#
+# STATISTICS
+#
 
 # Get column names first
 names = fl.columns
-# Create the Scaler object
-scaler = preprocessing.StandardScaler()
-# Fit your data on the scaler object
-standardized_fl = scaler.fit_transform(fl)
+
+#Standardize
+scaler = preprocessing.StandardScaler() # Create the Scaler object
+standardized_fl = scaler.fit_transform(fl) # Fit your data on the scaler object
 standardized_fl = pd.DataFrame(standardized_fl, columns=names)
 
-# print(scaled_fl.head())
-
-
-x = fl.values #returns a numpy array
+#Normalize
 min_max_scaler = preprocessing.MinMaxScaler()
-x_scaled = min_max_scaler.fit_transform(x)
-normalized_fl = pd.DataFrame(x_scaled)
+x_scaled = min_max_scaler.fit_transform(fl)
+normalized_fl = pd.DataFrame(x_scaled, columns=names)
 
-print(normalized_fl.head())
-print(normalized_fl.var())
+#Extract actual quantiles
+fl_quartiles = fl.quantile([.25, .5, .75, 1])
+fl_means = fl.mean()
+fl_stds = fl.std()
+fl_vars = fl.var()
+fl_norm_var=normalized_fl.var()
 
-quartiles = {}
-means = {}
-stds = {}
+# print("Quartiles: ", fl_quartiles)
+# print("Means: ", fl_means)
+# print("STDS: ", fl_stds)
+# print("Vars: ", fl_vars)
+# print("Norm Vars: ", fl_norm_var)
 
-for key in d:
-    means[key] = np.mean(d[key])
-    stds[key] = np.std(d[key])
-    quartiles[key] = [
-    np.quantile(d[key], .25),
-    np.quantile(d[key], .5),
-    np.quantile(d[key], .75),
-    np.quantile(d[key], 1),
-    ]
-
-# print(means)
-# print(stds)
-# print(quartiles)
-
-
-# print(scaled_fl.var())
+print(fl["Queue"].tolist())

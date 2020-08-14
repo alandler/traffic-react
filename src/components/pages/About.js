@@ -141,5 +141,12 @@ class PostInputs extends Component {
   }
 }
 
+class Post extends Component {
+  axios.post('/run', { sae })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+}
 
 export default About;

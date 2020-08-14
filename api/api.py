@@ -1,11 +1,15 @@
 import time
 import random
-import pandas
+import pandas as pd
 import json
+import numpy as np
+from sklearn import preprocessing
 from flask import Flask, request
 
-fl = pandas.read_csv("../src/components/fl_data_1.txt", header=None)
-atl = pandas.read_csv("../src/components/atl_data_1.txt", header=None)
+
+#Import data files
+fl_txt = pd.read_csv("../src/components/data/fl_data_1.txt", header=None)
+atl_txt = pd.read_csv("../src/components/data/atl_data_1.txt", header=None)
 
 app = Flask(__name__)
 
@@ -22,3 +26,7 @@ def run_model():
         print("Key: ", key)
         d[key] = random.randint(0,10)
     return d
+
+@app.route('/fl', methods = ["GET","POST"])
+def fl():
+    return fl_txt.to_json(orient="records")
