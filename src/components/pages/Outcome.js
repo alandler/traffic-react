@@ -24,8 +24,29 @@ import { Map, TileLayer, Marker, Popup, Polygon } from "react-leaflet"
 
 //import Inputs from "./pages/Home.js";
 
+//PDF
+import ReactPDF from '@react-pdf/renderer';
+import { PDFViewer } from '@react-pdf/renderer';
+import { Page, Document, Text, View, StyleSheet } from '@react-pdf/renderer';
+
 //HTTP Axios
 import axios from 'axios';
+
+const styles = StyleSheet.create({
+    page: {
+        flexDirection: 'col',
+        backgroundColor: '#E4E4E4'
+    },
+    section: {
+        margin: 35,
+        padding: 10,
+        flexGrow: 2
+    },
+    viewer: {
+        width: "100%",
+        height: '100%'
+    },
+});
 
 class Outcome extends Component {
     constructor(props) {
@@ -69,8 +90,8 @@ class Outcome extends Component {
                         ></TimeSeries>
                     </Col>
                     <Col>
-                        <table style = {{width:"70%", float: "left", verticalAlign: "top"}}>
-                            <tr style={{ textAlign: "center"}}>
+                        <table style={{ width: "70%", float: "left", verticalAlign: "top" }}>
+                            <tr style={{ textAlign: "center" }}>
                                 <th colSpan="2">Metrics</th>
                             </tr>
                             <tr><th>PMT</th><td>6</td></tr>
@@ -82,8 +103,12 @@ class Outcome extends Component {
                         </table>
                     </Col>
                 </Row>
+                <Row style = {{height:"600px", width: "100%"}}>
+                    <PDFViewer>
+                        <PDF />
+                    </PDFViewer>
+                </Row>
             </Container>
-
         )
     }
 }
@@ -261,5 +286,25 @@ class TimeSeries extends Component {
         </svg>
     }
 }
+
+const PDF = () => (
+    <Document>
+        <Page size="A4" style={styles.page}>
+            <View style={styles.section}>
+                <Text>Inputs</Text>
+                <Text>SAE Level: 1</Text>
+                <Text>Percent Electric Vehicles: 86%</Text>
+                <Text>Percent Private Vehicles AV: 76%</Text>
+                <Text>Percent Public/Rideshare Vehicles AV: 15%</Text>
+                <Text>Intersections: 1</Text>
+                <Text>Passenger Cost: $.60</Text>
+            </View>
+            <View style={styles.section}>
+                <Text>Outcomes</Text>
+                <Text>Avg speed: 13.4 mph</Text>
+            </View>
+        </Page>
+    </Document>
+);
 
 export default Outcome;

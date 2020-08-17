@@ -54,10 +54,17 @@ const PDF = () => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
-        <Text>Section #1</Text>
+        <Text>Inputs</Text>
+        <Text>SAE Level: 1</Text>
+        <Text>Percent Electric Vehicles: 86%</Text>
+        <Text>Percent Private Vehicles AV: 76%</Text>
+        <Text>Percent Public/Rideshare Vehicles AV: 15%</Text>
+        <Text>Intersections: 1</Text>
+        <Text>Passenger Cost: $.60</Text>
       </View>
       <View style={styles.section}>
-        <Text>Section #2</Text>
+        <Text>Outcomes</Text>
+        <Text>Avg speed: 13.4 mph</Text>
       </View>
     </Page>
   </Document>
