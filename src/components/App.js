@@ -42,13 +42,23 @@ class App extends Component {
       scenarioTwo: {},
     };
 
-    this.setScenarioToRun = this.setScenarioToRun.bind()
-    this.setScenariosToCompare = this.setScenariosToCompare.bind()
+    this.setScenarioToRun = this.setScenarioToRun.bind(this)
+    this.setScenariosToCompare = this.setScenariosToCompare.bind(this)
   }
 
   setScenarioToRun(params) {
     console.log("setScenarioToRun params: ", params)
-    // this.setState({scenarioToRun[params.name]: params.value})
+
+    for (let key in params){
+      console.log("Key: ", key, "Value: ", params[key])
+      this.setState(prevState => {
+        let scenarioToRun = Object.assign({}, prevState.scenarioToRun);
+        scenarioToRun[key] = params[key];                           
+        return { scenarioToRun };                   
+      })
+    }
+
+    console.log("Result: ", this.state.scenarioToRun)
   }
 
   setScenariosToCompare(params) {
@@ -57,6 +67,7 @@ class App extends Component {
   }
 
   render() {
+    console.log("Render scenario to run", this.state.scenarioToRun)
     return (
       <>
         <Router>

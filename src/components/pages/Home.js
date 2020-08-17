@@ -24,6 +24,18 @@ class Home extends Component {
   constructor(props) {
     console.log("Home props:", props)
     super(props);
+
+    this.setScenarioToRun=this.setScenarioToRun.bind(this)
+    this.setScenariosToCompare=this.setScenariosToCompare.bind(this)
+  }
+
+  setScenarioToRun = (e) => {
+    console.log("Scenario to run in Home!")
+    this.props.setScenarioToRun(e)
+  }
+
+  setScenariosToCompare = (e) => {
+    this.props.setScenariosToCompare(e)
   }
 
   render() {
@@ -34,8 +46,8 @@ class Home extends Component {
           <Row>
             <Col>
             <Inputs
-              setScenarioToRun={this.props.setScenarioToRun}
-              setScenariosToCompare={this.props.setScenariosToCompare}
+              setScenarioToRun={this.setScenarioToRun}
+              setScenariosToCompare={this.setScenariosToCompare}
             ></Inputs>
             </Col>
             <Col>
@@ -59,14 +71,13 @@ class Inputs extends Component {
     this.state = {
       sae: 0,
       electric: 0,
-      private: 0,
-      public: 0,
+      priv: 0,
+      pub: 0,
       intersections: 0,
-      passenger_cost: 0,
+      passengerCost: 0,
     };
     console.log("Inputs props: ", props)
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.setScenarioToRun = props.setScenarioToRun.bind(this)
     this.submitForm = this.submitForm.bind(this)
   }
 
@@ -94,9 +105,22 @@ class Inputs extends Component {
   }
 
   submitForm(event){
-    console.log("hello")
-    alert('A SAE Level was submitted: ' + this.state.sae);
     event.preventDefault();
+    alert('A scenario was submitted: \n' 
+    + "SAE Level: " + this.state.sae + "\n"
+    + this.state.electric
+    + this.state.priv
+    + this.state.pub
+    + this.state.intersections
+    + this.state.passengerCost);
+    this.props.setScenarioToRun({
+      sae: this.state.sae,
+      electric: this.state.electric,
+      priv: this.state.priv,
+      pub: this.state.pub,
+      intersections: this.state.intersections, 
+      passengerCost: this.state.passengerCost
+    })
   }
 
   render() {
@@ -118,14 +142,14 @@ class Inputs extends Component {
         <label>
           Percent Private Vehicles AV:
         </label>
-        <span>{this.state.private}</span>
-        <input name="private" type="range" min="0" max="100" value={this.state.private} onChange={this.handleInputChange} />
+        <span>{this.state.priv}</span>
+        <input name="priv" type="range" min="0" max="100" value={this.state.priv} onChange={this.handleInputChange} />
         <br />
         <label>
           Percent Public/Rideshare Vehicles AV:
         </label>
-        <span>{this.state.public}</span>
-        <input name="public" type="range" min="0" max="100" value={this.state.public} onChange={this.handleInputChange} />
+        <span>{this.state.pub}</span>
+        <input name="pub" type="range" min="0" max="100" value={this.state.pub} onChange={this.handleInputChange} />
         <br />
         <label>
           Intersections:
@@ -135,7 +159,7 @@ class Inputs extends Component {
         <label>
           Passenger Cost:
           </label>
-        <input name="passenger_cost" type="number" className="" min="0" step="0.01" value={this.state.passenger_cost} onChange={this.handleInputChange} />
+        <input name="passengerCost" type="number" className="" min="0" step="0.01" value={this.state.passengerCost} onChange={this.handleInputChange} />
         <br />
         <div className="center">
           <button type="submit" id="createScenarioButton">Create</button>
