@@ -37,9 +37,25 @@ class App extends Component {
       userId: undefined,
       loggedIn: false,
       loggedOut: false,
-      inputs: {},
+      scenarioToRun: {},
+      scenarioOne: {},
+      scenarioTwo: {},
     };
+
+    this.setScenarioToRun = this.setScenarioToRun.bind()
+    this.setScenariosToCompare = this.setScenariosToCompare.bind()
   }
+
+  setScenarioToRun(params) {
+    console.log("setScenarioToRun params: ", params)
+    // this.setState({scenarioToRun[params.name]: params.value})
+  }
+
+  setScenariosToCompare(params) {
+    this.state.scenarioOne = {}
+    this.state.scenarioTwo = {}
+  }
+
   render() {
     return (
       <>
@@ -70,13 +86,40 @@ class App extends Component {
             {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
             <Switch>
-              <Route path="/about">
+              <Route path="/about"
+                userId={this.state.userId}
+                loggedIn={this.state.loggedIn}
+                loggedOut={this.state.loggedOut}
+                scenarioToRun={this.state.scenarioToRun}
+                scenarioOne={this.state.scenarioOne}
+                scenarioTwo={this.state.scenarioTwo}
+                setScenarioToRun = {this.setScenarioToRun}
+                setScenariosToCompare = {this.setScenariosToCompare}
+              >
                 <About />
               </Route>
-              <Route path="/compare">
+              <Route path="/compare"
+                userId={this.state.userId}
+                loggedIn={this.state.loggedIn}
+                loggedOut={this.state.loggedOut}
+                scenarioToRun={this.state.scenarioToRun}
+                scenarioOne={this.state.scenarioOne}
+                scenarioTwo={this.state.scenarioTwo}
+                setScenarioToRun = {this.setScenarioToRun}
+                setScenariosToCompare = {this.setScenariosToCompare}
+              >
                 <Compare />
               </Route>
-              <Route path="/outcome">
+              <Route path="/outcome"
+                userId={this.state.userId}
+                loggedIn={this.state.loggedIn}
+                loggedOut={this.state.loggedOut}
+                scenarioToRun={this.state.scenarioToRun}
+                scenarioOne={this.state.scenarioOne}
+                scenarioTwo={this.state.scenarioTwo}
+                setScenarioToRun = {this.setScenarioToRun}
+                setScenariosToCompare = {this.setScenariosToCompare}
+              >
                 <Outcome />
               </Route>
               {/* <Route exact path="/">
@@ -85,7 +128,16 @@ class App extends Component {
               <Route
                 path='/'
                 render={(props) => (
-                  <Home {...props} userId={"Anna"}/>
+                  <Home {...props}
+                    userId={this.state.userId}
+                    loggedIn={this.state.loggedIn}
+                    loggedOut={this.state.loggedOut}
+                    scenarioToRun={this.state.scenarioToRun}
+                    scenarioOne={this.state.scenarioOne}
+                    scenarioTwo={this.state.scenarioTwo}
+                    setScenarioToRun = {this.setScenarioToRun}
+                    setScenariosToCompare = {this.setScenariosToCompare}
+                  />
                 )}
               />
             </Switch>

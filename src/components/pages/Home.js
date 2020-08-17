@@ -33,7 +33,10 @@ class Home extends Component {
         <Container>
           <Row>
             <Col>
-            <Inputs></Inputs>
+            <Inputs
+              setScenarioToRun={this.props.setScenarioToRun}
+              setScenariosToCompare={this.props.setScenariosToCompare}
+            ></Inputs>
             </Col>
             <Col>
             <ComparisonSelection></ComparisonSelection>
@@ -61,8 +64,10 @@ class Inputs extends Component {
       intersections: 0,
       passenger_cost: 0,
     };
-
+    console.log("Inputs props: ", props)
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.setScenarioToRun = props.setScenarioToRun.bind(this)
+    this.submitForm = this.submitForm.bind(this)
   }
 
   handleInputChange(event) {
@@ -73,6 +78,7 @@ class Inputs extends Component {
     this.setState({
       [name]: value
     });
+    // this.setScenarioToRun({name:target.name, value:target.value})
   }
 
   handleSubmit = event => {
@@ -87,9 +93,15 @@ class Inputs extends Component {
       })
   }
 
+  submitForm(event){
+    console.log("hello")
+    alert('A SAE Level was submitted: ' + this.state.sae);
+    event.preventDefault();
+  }
+
   render() {
     return (
-      <form action="/outcome" className="input-form">
+      <form onSubmit={this.submitForm} className="input-form">
         <h4 style={{ "textAlign": "center" }}>Create and run new scenario</h4>
         <label>
           SAE Level:
