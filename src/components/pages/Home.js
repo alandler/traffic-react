@@ -89,7 +89,6 @@ class Inputs extends Component {
     this.setState({
       [name]: value
     });
-    // this.setScenarioToRun({name:target.name, value:target.value})
   }
 
   handleSubmit = event => {
@@ -349,6 +348,9 @@ export default Home;
 
 
 function ComparisonSelection() {
+
+  //get user scenarios from database
+
   return (
     <form className="compare-selector" action="/compare">
       <h4 style={{ "textAlign": "center" }}>Compare existing scenarios</h4>

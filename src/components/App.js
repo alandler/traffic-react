@@ -38,8 +38,8 @@ class App extends Component {
       loggedIn: false,
       loggedOut: false,
       scenarioToRun: {},
-      scenarioOne: {},
-      scenarioTwo: {},
+      scenarioOne: undefined,
+      scenarioTwo: undefined,
     };
 
     this.setScenarioToRun = this.setScenarioToRun.bind(this)
@@ -47,27 +47,20 @@ class App extends Component {
   }
 
   setScenarioToRun(params) {
-    console.log("setScenarioToRun params: ", params)
-
-    for (let key in params){
-      console.log("Key: ", key, "Value: ", params[key])
+    for (let key in params) {
       this.setState(prevState => {
         let scenarioToRun = Object.assign({}, prevState.scenarioToRun);
-        scenarioToRun[key] = params[key];                           
-        return { scenarioToRun };                   
+        scenarioToRun[key] = params[key];
+        return { scenarioToRun };
       })
     }
-
-    console.log("Result: ", this.state.scenarioToRun)
   }
 
   setScenariosToCompare(params) {
-    this.state.scenarioOne = {}
-    this.state.scenarioTwo = {}
+    //Set the scenario_id of the two projects
   }
 
   render() {
-    console.log("Render scenario to run", this.state.scenarioToRun)
     return (
       <>
         <Router>
@@ -101,11 +94,6 @@ class App extends Component {
                 userId={this.state.userId}
                 loggedIn={this.state.loggedIn}
                 loggedOut={this.state.loggedOut}
-                scenarioToRun={this.state.scenarioToRun}
-                scenarioOne={this.state.scenarioOne}
-                scenarioTwo={this.state.scenarioTwo}
-                setScenarioToRun = {this.setScenarioToRun}
-                setScenariosToCompare = {this.setScenariosToCompare}
               >
                 <About />
               </Route>
@@ -113,11 +101,9 @@ class App extends Component {
                 userId={this.state.userId}
                 loggedIn={this.state.loggedIn}
                 loggedOut={this.state.loggedOut}
-                scenarioToRun={this.state.scenarioToRun}
                 scenarioOne={this.state.scenarioOne}
                 scenarioTwo={this.state.scenarioTwo}
-                setScenarioToRun = {this.setScenarioToRun}
-                setScenariosToCompare = {this.setScenariosToCompare}
+                setScenariosToCompare={this.setScenariosToCompare}
               >
                 <Compare />
               </Route>
@@ -126,10 +112,6 @@ class App extends Component {
                 loggedIn={this.state.loggedIn}
                 loggedOut={this.state.loggedOut}
                 scenarioToRun={this.state.scenarioToRun}
-                scenarioOne={this.state.scenarioOne}
-                scenarioTwo={this.state.scenarioTwo}
-                setScenarioToRun = {this.setScenarioToRun}
-                setScenariosToCompare = {this.setScenariosToCompare}
               >
                 <Outcome />
               </Route>
@@ -146,8 +128,8 @@ class App extends Component {
                     scenarioToRun={this.state.scenarioToRun}
                     scenarioOne={this.state.scenarioOne}
                     scenarioTwo={this.state.scenarioTwo}
-                    setScenarioToRun = {this.setScenarioToRun}
-                    setScenariosToCompare = {this.setScenariosToCompare}
+                    setScenarioToRun={this.setScenarioToRun}
+                    setScenariosToCompare={this.setScenariosToCompare}
                   />
                 )}
               />
