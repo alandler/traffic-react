@@ -17,6 +17,10 @@ import { render } from "@testing-library/react";
 //HTTP Axios
 import axios from 'axios';
 
+
+//Mongo
+import { handleFind, handleCreate, handleDelete, handleUpdate } from "../../mongo.js"
+
 //
 // Main Class HOME
 //
@@ -297,6 +301,14 @@ function Table(props) {
     { "TIME": "7/4/20", "SAE": 3, "PRIV": 73, "ELEC": 65, "PUB": 62, "INT": 14, "COST": "3", "PMT": 8, "PTI": 7, "TTI": 3, "PTI": 5, "GHG": 6.5, "SPEED": 26, "STAND": 80 },
     { "TIME": "7/5/20", "SAE": 2, "PRIV": 13, "ELEC": 14, "PUB": 77, "INT": 2, "COST": "3", "PMT": 5, "PTI": 2, "TTI": 4, "PTI": 8, "GHG": 7, "SPEED": 35.7, "STAND": 60 }
   ]
+
+  let mongoUserCursor = handleFind("alandler").catch(console.error)
+  
+  console.log("MongoCursor: ", mongoUserCursor)
+  var mongo_user = []
+  for (let entry in mongoUserCursor){
+    mongo_user.push(entry)
+  }
 
   //Functions to create Table Header
   function HeaderCell(prop) {
