@@ -203,116 +203,59 @@ class Scenario extends Component {
   render() {
     return (
       <div className="table-container">
-        <FilterForm
-          onClick={(i) => this.handleClick(i)}
-          headers={this.state.headers}
-        />
+        <Table></Table>
       </div>
     )
   }
 }
 
-//
-//Filters and Table
-//
-
-function FilterForm(props) {
-  return (
-    <div className="filter-form">
-      <Filter
-        header={props.headers[0]}
-        onClick={() => props.onClick(0)}
-      />
-      <Filter
-        header={props.headers[1]}
-        onClick={() => props.onClick(1)}
-      />
-      <Filter
-        header={props.headers[2]}
-        onClick={() => props.onClick(2)}
-      />
-      <Filter
-        header={props.headers[3]}
-        onClick={() => props.onClick(3)}
-      />
-      <Filter
-        header={props.headers[4]}
-        onClick={() => props.onClick(4)}
-      />
-      <Filter
-        header={props.headers[5]}
-        onClick={() => props.onClick(5)}
-      />
-      <Filter
-        header={props.headers[6]}
-        onClick={() => props.onClick(6)}
-      />
-      <Filter
-        header={props.headers[7]}
-        onClick={() => props.onClick(7)}
-      />
-      <Filter
-        header={props.headers[8]}
-        onClick={() => props.onClick(8)}
-      />
-      <Filter
-        header={props.headers[9]}
-        onClick={() => props.onClick(9)}
-      />
-      <Filter
-        header={props.headers[10]}
-        onClick={() => props.onClick(10)}
-      />
-      <Filter
-        header={props.headers[11]}
-        onClick={() => props.onClick(11)}
-      />
-      <Filter
-        header={props.headers[12]}
-        onClick={() => props.onClick(12)}
-      />
-    </div>
-  )
-}
-
-function Filter(props) {
-  let lbl = "filter-" + props.header
-  return (
-    <div className="filter-div">
-      <input type="checkbox" name={lbl} onClick={props.onClick}></input>
-      <label htmlFor={lbl}>{props.header}</label> <br />
-    </div>
-  );
-}
-
-
 export default Home;
 
 
-function ComparisonSelection() {
+class ComparisonSelection extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: "No Data",
+      count: 0
+    }
+  }
 
-  //get user scenarios from database
+  componentDidMount() {
+    axios.get('/api/get/alandler')
+      .then(res => {
+        this.setState({
+          data: res.data,
+          count: res.data.length
+        })
+      })
+  }
 
-  return (
-    <form className="compare-selector" action="/compare">
-      <h4 style={{ "textAlign": "center" }}>Compare existing scenarios</h4>
-      <label>Choose 1st scenario: </label>
-      <select>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-      </select>
-      <br></br>
-      <label>Choose 2nd scenario: </label>
-      <select>
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-      </select>
-      <br></br>
-      <button type="submit">Compare!</button>
-    </form>
-  )
+
+  render() {
+    let options = []
+    var i
+    for (i = 0; i < this.state.count; i++) {
+      options.push(<option>{i}</option>)
+    }
+
+    return (
+      <form className="compare-selector" action="/compare">
+        <h4 style={{ "textAlign": "center" }}>Compare existing scenarios</h4>
+        <label>Choose 1st scenario: </label>
+        <select>
+          {options}
+        </select>
+        <br></br>
+        <label>Choose 2nd scenario: </label>
+        <select>
+          {options}
+        </select>
+        <br></br>
+        <button type="submit">Compare!</button>
+      </form>
+    )
+  }
 }
 
 
@@ -323,9 +266,27 @@ class Experiment extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: "No Data"
+      placeholder: 0
     }
 
+  }
+
+  componentDidMount() {
+    console.log("Do nothing")
+  }
+
+  render() {
+    return (<p></p>
+    )
+  }
+}
+
+class Table extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: "No Data"
+    }
   }
 
   componentDidMount() {
@@ -338,25 +299,12 @@ class Experiment extends Component {
   }
 
   render() {
-    return (
-      <Table
-        data={this.state.data}
-      />
-    )
-  }
-}
-
-class Table extends Component {
-  constructor(props) {
-    super(props)
-  }
-  render() {
     let head = []
     let headComplete = false
     let row = []
     let tableBody = []
 
-    for (const obj of this.props.data) {
+    for (const obj of this.state.data) {
       row = []
       for (const [key, value] of Object.entries(obj)) {
         if (headComplete == false) {
@@ -369,12 +317,12 @@ class Table extends Component {
     }
 
     return (
-      <table>
+      <table id="savedScenariosTable">
         <thead>
-        {head}
+          {head}
         </thead>
         <tbody>
-        {tableBody}
+          {tableBody}
         </tbody>
       </table>
     )
