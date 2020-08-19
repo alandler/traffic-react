@@ -33,8 +33,8 @@ class Home extends Component {
     console.log("Home props:", props)
     super(props);
 
-    this.setScenarioToRun=this.setScenarioToRun.bind(this)
-    this.setScenariosToCompare=this.setScenariosToCompare.bind(this)
+    this.setScenarioToRun = this.setScenarioToRun.bind(this)
+    this.setScenariosToCompare = this.setScenariosToCompare.bind(this)
   }
 
   setScenarioToRun = (e) => {
@@ -53,13 +53,13 @@ class Home extends Component {
         <Container>
           <Row>
             <Col>
-            <Inputs
-              setScenarioToRun={this.setScenarioToRun}
-              setScenariosToCompare={this.setScenariosToCompare}
-            ></Inputs>
+              <Inputs
+                setScenarioToRun={this.setScenarioToRun}
+                setScenariosToCompare={this.setScenariosToCompare}
+              ></Inputs>
             </Col>
             <Col>
-            <ComparisonSelection></ComparisonSelection>
+              <ComparisonSelection></ComparisonSelection>
             </Col>
           </Row>
         </Container>
@@ -111,21 +111,21 @@ class Inputs extends Component {
       })
   }
 
-  submitForm(event){
+  submitForm(event) {
     event.preventDefault();
-    alert('A scenario was submitted: \n' 
-    + "SAE Level: " + this.state.sae + "\n"
-    + this.state.electric
-    + this.state.priv
-    + this.state.pub
-    + this.state.intersections
-    + this.state.passengerCost);
+    alert('A scenario was submitted: \n'
+      + "SAE Level: " + this.state.sae + "\n"
+      + this.state.electric
+      + this.state.priv
+      + this.state.pub
+      + this.state.intersections
+      + this.state.passengerCost);
     this.props.setScenarioToRun({
       sae: this.state.sae,
       electric: this.state.electric,
       priv: this.state.priv,
       pub: this.state.pub,
-      intersections: this.state.intersections, 
+      intersections: this.state.intersections,
       passengerCost: this.state.passengerCost
     })
   }
@@ -308,7 +308,7 @@ function Table(props) {
 
   // console.log("MongoCursor: ", mongoUserCursor)
   var mongo_user = []
-  for (let entry in mongo_user){
+  for (let entry in mongo_user) {
     mongo_user.push(entry)
   }
 
@@ -391,9 +391,27 @@ function ComparisonSelection() {
 //
 // Experimental function
 //
-function Experiment() {
+class Experiment extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: "No Data"
+    }
 
-  return (
-    <p></p>
-  )
+  }
+
+  componentDidMount() {
+    axios.get('/api/get/alandler')
+      .then(res => {
+        this.setState({
+          data: res.data
+        })
+      })
+  }
+
+  render() {
+    return (
+      <p>{this.state.data[0].sae}</p>
+    )
+  }
 }

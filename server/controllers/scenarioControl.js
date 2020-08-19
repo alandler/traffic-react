@@ -37,10 +37,10 @@ function createScenario(req, res) {
 
 
 async function updateScenario (req, res) {
-    res.send()
+    res.send("Need to write this function")
 }
 async function deleteScenario (req, res) {
-    res.send()
+    res.send("Need to write this function")
 }
 
 async function getScenariosByUsername (req, res) {
