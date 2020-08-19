@@ -207,10 +207,6 @@ class Scenario extends Component {
           onClick={(i) => this.handleClick(i)}
           headers={this.state.headers}
         />
-        <Table
-          headers={this.state.headers}
-          filters={this.state.filters}
-        />
       </div>
     )
   }
@@ -289,74 +285,6 @@ function Filter(props) {
   );
 }
 
-function Table(props) {
-  //Extract header names that are indicated "true"
-  var selected_headers = ["Select"]
-  var j;
-  for (j = 0; j < props.filters.length; j++) {
-    if (props.filters[j] == true) {
-      selected_headers.push(props.headers[j])
-    }
-  }
-
-  //Extract scenarios from user
-  var mongo_user = [
-    { "TIME": "7/3/20", "SAE": 4, "PRIV": 90, "ELEC": 40, "PUB": 25, "INT": 25, "COST": "3", "PMT": 7, "PTI": 9, "TTI": 3, "PTI": 6, "GHG": 6, "SPEED": 7, "STAND": 100 },
-    { "TIME": "7/4/20", "SAE": 3, "PRIV": 73, "ELEC": 65, "PUB": 62, "INT": 14, "COST": "3", "PMT": 8, "PTI": 7, "TTI": 3, "PTI": 5, "GHG": 6.5, "SPEED": 26, "STAND": 80 },
-    { "TIME": "7/5/20", "SAE": 2, "PRIV": 13, "ELEC": 14, "PUB": 77, "INT": 2, "COST": "3", "PMT": 5, "PTI": 2, "TTI": 4, "PTI": 8, "GHG": 7, "SPEED": 35.7, "STAND": 60 }
-  ]
-
-  // console.log("MongoCursor: ", mongoUserCursor)
-  var mongo_user = []
-  for (let entry in mongo_user) {
-    mongo_user.push(entry)
-  }
-
-  //Functions to create Table Header
-  function HeaderCell(prop) {
-    return <th>{prop}</th>
-  }
-  function Header(headers) {
-    var result = selected_headers.map(HeaderCell)
-    return <thead>{result}</thead>
-  }
-
-
-  //Functions to create Table Body
-  function Cell(stuff) {
-    return <td>{stuff}</td>
-  }
-
-  function Row(obj, i) {
-    var arr = []
-    let index = 0
-    for (var head of selected_headers) {
-      if (head == "Select") {
-        arr.push(i)
-      }
-      else if (obj[head] != undefined) {
-        arr.push(obj[head])
-      } else {
-        arr.push("")
-      }
-    }
-    var row = arr.map(Cell, i)
-    return <tr>{row}</tr>
-  }
-
-  function Body(props) {
-    var rows = mongo_user.map(Row)
-    return <tbody>{rows}</tbody>
-  }
-
-  //Table Full Render Return
-  return (
-    <table>
-      <Header></Header>
-      <Body></Body>
-    </table>
-  )
-}
 
 export default Home;
 
@@ -411,7 +339,44 @@ class Experiment extends Component {
 
   render() {
     return (
-      <p>{this.state.data[0].sae}</p>
+      <Table
+        data={this.state.data}
+      />
+    )
+  }
+}
+
+class Table extends Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    let head = []
+    let headComplete = false
+    let row = []
+    let tableBody = []
+
+    for (const obj of this.props.data) {
+      row = []
+      for (const [key, value] of Object.entries(obj)) {
+        if (headComplete == false) {
+          head.push(<th>{key}</th>)
+        }
+        row.push(<td>{value}</td>)
+      }
+      tableBody.push(<tr>{row}</tr>)
+      headComplete = true
+    }
+
+    return (
+      <table>
+        <thead>
+        {head}
+        </thead>
+        <tbody>
+        {tableBody}
+        </tbody>
+      </table>
     )
   }
 }
