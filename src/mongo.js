@@ -1,20 +1,20 @@
 //server.js
 
 async function handleCreate(obj){
-    return await main("create", [obj])
+    return await main("create", [obj]).catch(console.error)
 }
 
 async function handleDelete(id){
-    return await main("delete", [id])
+    return await main("delete", [id]).catch(console.error)
 }
 
 async function handleUpdate(id, obj){
-    return await main("update", [id, obj])
+    return await main("update", [id, obj]).catch(console.error)
 }
 
 async function handleFind(user){
     console.log("Enter handleFind")
-    let result =  await main("find", [user])
+    let result =  await main("find", [user]).catch(console.error)
     console.log("Result from handleFind: ", result)
     return result
 }
@@ -43,10 +43,11 @@ async function main(command, params) {
     try {
         console.log("Enter try")
         // Connect to the MongoDB cluster
-        await client.connect();
+        const connection = await client.connect();
 
         console.log("Connected in try")
         
+        //Execute command
         if (command === "create"){
             result = await createScenario(client, params[0]);
         }

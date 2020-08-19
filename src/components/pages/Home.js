@@ -302,8 +302,8 @@ function Table(props) {
     { "TIME": "7/5/20", "SAE": 2, "PRIV": 13, "ELEC": 14, "PUB": 77, "INT": 2, "COST": "3", "PMT": 5, "PTI": 2, "TTI": 4, "PTI": 8, "GHG": 7, "SPEED": 35.7, "STAND": 60 }
   ]
 
-  let mongoUserCursor = handleFind("alandler").catch(console.error)
-  
+  let mongoUserCursor = handleFind("alandler")
+
   console.log("MongoCursor: ", mongoUserCursor)
   var mongo_user = []
   for (let entry in mongoUserCursor){
