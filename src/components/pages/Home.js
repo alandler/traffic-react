@@ -19,7 +19,7 @@ import axios from 'axios';
 
 
 //Mongo
-import { handleFind, handleCreate, handleDelete, handleUpdate } from "../../mongo.js"
+import { main } from "../../mongo.js"
 
 //
 // Main Class HOME
@@ -302,11 +302,11 @@ function Table(props) {
     { "TIME": "7/5/20", "SAE": 2, "PRIV": 13, "ELEC": 14, "PUB": 77, "INT": 2, "COST": "3", "PMT": 5, "PTI": 2, "TTI": 4, "PTI": 8, "GHG": 7, "SPEED": 35.7, "STAND": 60 }
   ]
 
-  let mongoUserCursor = handleFind("alandler")
+  // let mongoUserCursor = main("alandler")
 
-  console.log("MongoCursor: ", mongoUserCursor)
+  // console.log("MongoCursor: ", mongoUserCursor)
   var mongo_user = []
-  for (let entry in mongoUserCursor){
+  for (let entry in mongo_user){
     mongo_user.push(entry)
   }
 
