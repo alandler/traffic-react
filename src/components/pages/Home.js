@@ -26,6 +26,7 @@ import { main } from "../../mongo.js"
 //
 class Home extends Component {
   constructor(props) {
+    //props: userId, loggedIn, loggedOut, scenarioToRun, scenarioOne, scenarioTwo, setScenarioToRun, setScenariosToCompare
     console.log("Home props:", props)
     super(props);
 
